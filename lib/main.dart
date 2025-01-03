@@ -96,7 +96,7 @@ class _DiceGameState extends State<DiceGame> {
       Fluttertoast.showToast(
       msg: resultMessage,
       toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.CENTER,
+      gravity: ToastGravity.BOTTOM,
       backgroundColor: Colors.black,
       textColor: Colors.white,
     );
@@ -112,7 +112,7 @@ class _DiceGameState extends State<DiceGame> {
         Fluttertoast.showToast(
         msg: "Invalid Wager",
         toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
+        gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.black,
         textColor: Colors.white,
       );
@@ -133,7 +133,7 @@ class _DiceGameState extends State<DiceGame> {
       Fluttertoast.showToast(
         msg: "Wager exceeds maximum allowed wager for $selectedGameType.",
         toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
+        gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.black,
         textColor: Colors.white,
       );
