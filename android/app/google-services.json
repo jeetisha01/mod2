@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1056328811896",
+    "project_id": "dicegame1-689d5",
+    "storage_bucket": "dicegame1-689d5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1056328811896:android:1e3c54a0303ad744a0b48d",
+        "android_client_info": {
+          "package_name": "com.example.dicegame"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBm1wcLFqoubxDw_BWzdr1ZOx3qLHVWKe4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

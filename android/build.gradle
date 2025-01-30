@@ -1,3 +1,24 @@
+/*buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        //classpath 'com.android.tools.build:gradle:8.1.0' // Use the latest Gradle version
+        //classpath 'com.google.gms:google-services:4.4.0' // Use a supported version
+        classpath 'com.google.gms.google-services:4.4.2'
+    }
+}
+
+
+
+
+buildscript {
+    dependencies {
+        classpath 'com.google.gms.google-services:4.4.2'
+    }
+}
+
 allprojects {
     repositories {
         google()
@@ -15,4 +36,54 @@ subprojects {
 
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
+}*/
+
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.gms:google-services:4.4.2'
+    }
 }
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+/*plugins {
+    // ...
+
+    // Add the dependency for the Google services Gradle plugin
+    id 'com.google.gms.google-services' version '4.0.1' apply false
+
+}*/
+
+
+/*
+rootProject.buildDir = "../build"
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(":app")
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
+
+plugins {
+    // ...
+
+    // Add the dependency for the Google services Gradle plugin
+    id 'com.google.gms.google-services' version '4.0.1' apply false
+}
+
+ */
+

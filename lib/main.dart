@@ -1,10 +1,97 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:fluttertoast/fluttertoast.dart';
+//Starting of the file add
 
-void main() {
-  runApp(DiceGameApp());
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Auth Demo',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: AuthWrapper(),
+    );
+  }
+}
+
+class AuthWrapper extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          return AuthScreen();
+          //return snapshot.hasData ? DiceGameApp() : AuthScreen();
+        }
+        return Center(child: CircularProgressIndicator());
+      },
+    );
+  }
+}
+
+class AuthScreen extends StatefulWidget {
+  @override
+  _AuthScreenState createState() => _AuthScreenState();
+}
+
+class _AuthScreenState extends State<AuthScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  bool isLogin = true;
+
+  void handleAuth() async {
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
+    try {
+      if (isLogin) {
+        await _auth.signInWithEmailAndPassword(email: email, password: password);
+      } else {
+        await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(isLogin ? "Login" : "Sign Up")),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(controller: emailController, decoration: InputDecoration(labelText: "Email")),
+            TextField(controller: passwordController, decoration: InputDecoration(labelText: "Password"), obscureText: true),
+            SizedBox(height: 20),
+            ElevatedButton(onPressed: handleAuth, child: Text(isLogin ? "Login" : "Sign Up")),
+            TextButton(
+              onPressed: () => setState(() => isLogin = !isLogin),
+              child: Text(isLogin ? "Create an account" : "Already have an account? Login"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/*void main() {
+  runApp(DiceGameApp());
+}*/
 
 class DiceGameApp extends StatelessWidget {
   @override
@@ -64,6 +151,18 @@ class _DiceGameState extends State<DiceGame> {
     } else if (selectedGameType == "2 Alike" && dice[3] == dice[2]){
       walletBalance += wager * 2;
       win = true;
+    } else if (selectedGameType == "2 Alike" && dice[0] == dice[1] && dice[0] == dice[2]) {
+      walletBalance -= wager * 2;
+      win = true;
+    } else if (selectedGameType == "2 Alike" && dice[0] == dice[1] && dice[0] == dice[3]) {
+      walletBalance -= wager * 2;
+      win = true;
+    } else if (selectedGameType == "2 Alike" && dice[0] == dice[3] && dice[0] == dice[2]) {
+      walletBalance -= wager * 2;
+      win = true;
+    } else if (selectedGameType == "2 Alike" && dice[3] == dice[1] && dice[3] == dice[2]) {
+      walletBalance -= wager * 2;
+      win = true;
     }
     else if (selectedGameType == "3 Alike" && dice[0] == dice[1] && dice[0] == dice[2]) {
       walletBalance += wager * 3;
@@ -93,7 +192,7 @@ class _DiceGameState extends State<DiceGame> {
     // Display result via Toast
     String resultMessage =
         "Dice: ${dice.join(", ")}\nYou ${win ? 'Won' : 'Lost'}! New Balance: $walletBalance";
-      Fluttertoast.showToast(
+    Fluttertoast.showToast(
       msg: resultMessage,
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.BOTTOM,
@@ -109,7 +208,7 @@ class _DiceGameState extends State<DiceGame> {
   bool validateWager()
   {
     if (wager <= 0 || wager > walletBalance) {
-        Fluttertoast.showToast(
+      Fluttertoast.showToast(
         msg: "Invalid Wager",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
