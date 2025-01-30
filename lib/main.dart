@@ -31,8 +31,8 @@ class AuthWrapper extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
-          return AuthScreen();
-          //return snapshot.hasData ? DiceGameApp() : AuthScreen();
+          //return AuthScreen();
+          return snapshot.hasData ? DiceGameApp() : AuthScreen();
         }
         return Center(child: CircularProgressIndicator());
       },
